@@ -13,7 +13,7 @@ type AppData struct {
 
 var currentClass string = ""
 
-func (a *AppData) TrackTimer(newClass string) map[string]time.Duration {
+func (a *AppData) TrackTimer(newClass string) map[string]float64 {
 
 	if a.TimeSpent == nil {
 		a.TimeSpent = make(map[string]time.Duration)
@@ -29,16 +29,13 @@ func (a *AppData) TrackTimer(newClass string) map[string]time.Duration {
 
 	currentClass = newClass
 	a.LastSwitch = now
+	fmt.Printf("%v", a.LastSwitch)
 
-	return a.TimeSpent
-
-}
-
-func (a *AppData) Print(details map[string]time.Duration) {
-	for app, time := range details {
-		if app != "" {
-			fmt.Printf("You spent %v in %v\n", time, app)
-
-		}
+	secondsMap := make(map[string]float64)
+	for k, v := range a.TimeSpent {
+		secondsMap[k] = v.Seconds()
 	}
+
+	return secondsMap //send time duration in second for easiness
+
 }
